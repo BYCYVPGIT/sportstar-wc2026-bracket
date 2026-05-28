@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Sportstar FIFA WC 2026 — Design tokens ──────────────────────────────── */
+@theme {
+  /* ── Brand ─────────────────────────────────────────────────────────────── */
+  /* Sportstar yellow — exact match from sportstar.thehindu.com               */
+  --color-sportstar:     #FFED00;
+  --color-sportstar-dim: #D9C800;  /* hover / pressed */
+  --color-on-sportstar:  #111111;  /* text ON yellow backgrounds              */
+
+  /* Warm amber — picked states, score highlights (distinct from yellow)     */
+  --color-gold:          #F0A500;
+  --color-gold-dim:      #CC8A00;
+
+  /* Success / advance */
+  --color-pitch:         #22863a;
+  --color-pitch-dim:     #196e30;
+
+  /* ── Backgrounds — clean white / light grey ─────────────────────────────  */
+  --color-ink-950: #FFFFFF;   /* main body background            */
+  --color-ink-900: #F7F7F7;   /* alternate section background    */
+  --color-ink-800: #FFFFFF;   /* card background                 */
+  --color-ink-700: #EFEFEF;   /* input / subtle hover            */
+  --color-ink-600: #E2E2E2;   /* deeper hover / progress track   */
+
+  /* ── Borders ─────────────────────────────────────────────────────────────  */
+  --color-line:     #E5E5E5;
+  --color-line-dim: #F0F0F0;
+
+  /* ── Text ────────────────────────────────────────────────────────────────  */
+  --color-text-primary:   #111111;
+  --color-text-secondary: #555555;
+  --color-text-muted:     #999999;
+
+  /* ── Fonts ───────────────────────────────────────────────────────────────  */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ── Base ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-ink-950);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Focus ring ──────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-sportstar);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Scrollbar (webkit) ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-ink-900); }
+::-webkit-scrollbar-thumb { background: var(--color-ink-600); border-radius: 3px; }
+
+/* ── Utility classes not covered by Tailwind ───────────────────────────── */
+.bracket-tree {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* connector lines between bracket rounds */
+.bracket-connector {
+  width: 24px;
+  flex-shrink: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* Progress bar fill animation */
+.progress-fill {
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Team pick button active/hover glow */
+.team-pick-btn:hover,
+.team-pick-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-gold);
+}
+
+.team-pick-btn.picked {
+  box-shadow: 0 0 0 2px var(--color-gold), inset 0 0 0 1px var(--color-gold);
+}
+
+/* Shake animation for validation errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+}
+.shake { animation: shake 0.3s ease; }
+
+/* Fade-in for step transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.25s ease forwards; }
+
+/* Champion shimmer — warm amber sweep */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.champion-glow {
+  background: linear-gradient(90deg,
+    var(--color-gold-dim) 0%,
+    #FFD966 40%,
+    var(--color-gold-dim) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
