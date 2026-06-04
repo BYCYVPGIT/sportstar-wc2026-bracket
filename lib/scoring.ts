@@ -6,7 +6,7 @@ import type { GroupRanks, KnockoutPicks, Tiebreakers, ScoreBreakdown, GroupCode 
 import { SCORING_CONFIG } from '@/data/bracket';
 import { ALL_SLOTS } from '@/data/bracket';
 
-interface TournamentResults {
+export interface TournamentResults {
   groupStandings: Partial<Record<GroupCode, [string, string, string, string]>>;
   knockoutResults: Record<string, string>;  // slotCode → winner teamId
   goldenBootTeam?: string;
