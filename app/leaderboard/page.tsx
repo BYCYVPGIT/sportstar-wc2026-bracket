@@ -41,7 +41,7 @@ export default function LeaderboardPage() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8 gap-4 flex-wrap">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-sportstar)] mb-1">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-sportstar-text)] mb-1">
               Sportstar · WC 2026
             </p>
             <h1 className="text-3xl font-extrabold text-[var(--color-text-primary)]">Leaderboard</h1>
@@ -123,7 +123,7 @@ export default function LeaderboardPage() {
                     <span className="font-semibold text-[var(--color-text-primary)] text-sm truncate">{row.name}</span>
                     {row.code === 'sportstar-editors' && (
                       <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded
-                                       bg-[var(--color-sportstar)]/20 text-[var(--color-sportstar)] shrink-0">
+                                       bg-[var(--color-sportstar)]/20 text-[var(--color-sportstar-text)] shrink-0">
                         Editors
                       </span>
                     )}
@@ -141,7 +141,7 @@ export default function LeaderboardPage() {
                   <Link
                     href={`/b/${row.code}`}
                     className="hidden sm:flex items-center gap-1 text-[10px] text-[var(--color-text-muted)]
-                               hover:text-[var(--color-sportstar)] transition-colors"
+                               hover:text-[var(--color-sportstar-text)] transition-colors"
                     aria-label={`View ${row.name}'s bracket`}
                   >
                     View <ExternalLink className="h-3 w-3" />

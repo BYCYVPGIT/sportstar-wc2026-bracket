@@ -65,7 +65,7 @@ export default function HubPage() {
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-sportstar)]/30
                             bg-[var(--color-sportstar)]/10 px-3 py-1 mb-6">
-              <span className="text-[var(--color-sportstar)] text-xs font-semibold uppercase tracking-wider">
+              <span className="text-[var(--color-sportstar-text)] text-xs font-semibold uppercase tracking-wider">
                 Sportstar · FIFA World Cup 2026
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function HubPage() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--color-text-primary)]
                            leading-[1.1] tracking-tight mb-4">
               Pick the<br />
-              <span className="text-[var(--color-sportstar)]">2026 World Cup.</span>
+              <span className="text-[var(--color-sportstar-text)]">2026 World Cup.</span>
             </h1>
             <p className="text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed">
               Build your bracket. Lock it before kickoff in New Jersey.
@@ -170,7 +170,7 @@ export default function HubPage() {
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--color-text-primary)]">The 12 Groups</h2>
-              <Link href="/build" className="text-sm text-[var(--color-sportstar)] hover:underline flex items-center gap-1">
+              <Link href="/build" className="text-sm text-[var(--color-sportstar-text)] hover:underline flex items-center gap-1">
                 Pick now <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -179,7 +179,7 @@ export default function HubPage() {
                 const teams = TEAMS.filter(t => t.group === g);
                 return (
                   <div key={g} className="rounded-lg border border-[var(--color-line)] bg-[var(--color-ink-800)] p-3">
-                    <p className="text-xs font-bold text-[var(--color-sportstar)] mb-2">Group {g}</p>
+                    <p className="text-xs font-bold text-[var(--color-sportstar-text)] mb-2">Group {g}</p>
                     <div className="space-y-1.5">
                       {teams.map(t => (
                         <div key={t.id} className="flex items-center gap-1.5">
@@ -222,7 +222,7 @@ export default function HubPage() {
             </div>
             <p className="text-xs text-[var(--color-text-muted)] text-center mt-3">
               Plus tiebreaker bonuses. See{' '}
-              <Link href="/how-to-play" className="text-[var(--color-sportstar)] hover:underline">full scoring rules</Link>.
+              <Link href="/how-to-play" className="text-[var(--color-sportstar-text)] hover:underline">full scoring rules</Link>.
             </p>
           </div>
         </section>

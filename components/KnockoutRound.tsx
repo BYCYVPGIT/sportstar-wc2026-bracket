@@ -48,7 +48,7 @@ export default function KnockoutRound({ slots, title }: KnockoutRoundProps) {
                   <button
                     onClick={() => clearPick(slot.slotCode)}
                     aria-label="Clear pick"
-                    className="text-[var(--color-text-muted)] hover:text-[var(--color-sportstar)]
+                    className="text-[var(--color-text-muted)] hover:text-[var(--color-sportstar-text)]
                                transition-colors p-0.5 rounded"
                   >
                     <X className="h-3.5 w-3.5" />

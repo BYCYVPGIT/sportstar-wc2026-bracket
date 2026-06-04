@@ -142,7 +142,7 @@ function WelcomeStep({
                      text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] px-4 py-3 text-sm
                      focus:outline-none focus:border-[var(--color-gold)] transition-colors"
         />
-        {error && <p className="text-xs text-[var(--color-sportstar)] mt-2">{error}</p>}
+        {error && <p className="text-xs text-[var(--color-sportstar-text)] mt-2">{error}</p>}
         <p className="text-xs text-[var(--color-text-muted)] mt-2">
           Shown on the leaderboard. No account required.
         </p>
@@ -456,7 +456,7 @@ function ReviewStep({
           <button
             onClick={onReset}
             className="w-full flex items-center justify-center gap-2 rounded-lg py-2 text-xs
-                       text-[var(--color-text-muted)] hover:text-[var(--color-sportstar)] transition-colors"
+                       text-[var(--color-text-muted)] hover:text-[var(--color-sportstar-text)] transition-colors"
           >
             <RotateCcw className="h-3.5 w-3.5" /> Start over
           </button>
@@ -510,7 +510,7 @@ function ReviewStep({
       <div className="mt-8 pt-6 border-t border-[var(--color-line)]">
         <p className="text-xs text-[var(--color-text-muted)] mb-4 text-center">
           By submitting you agree to the{' '}
-          <Link href="/terms" className="text-[var(--color-sportstar)] hover:underline">
+          <Link href="/terms" className="text-[var(--color-sportstar-text)] hover:underline">
             Terms &amp; Conditions
           </Link>. Your bracket is locked once submitted.
         </p>

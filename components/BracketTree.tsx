@@ -248,7 +248,7 @@ function RoundHeaders() {
         </div>
       ))}
       <div
-        className="text-center text-[11px] font-bold text-[var(--color-sportstar)] uppercase tracking-wider shrink-0"
+        className="text-center text-[11px] font-bold text-[var(--color-sportstar-text)] uppercase tracking-wider shrink-0"
         style={{ marginLeft: CX, width: 120 }}
       >
         Champion

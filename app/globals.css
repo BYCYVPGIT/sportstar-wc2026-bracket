@@ -3,10 +3,12 @@
 /* ── Sportstar FIFA WC 2026 — Design tokens ──────────────────────────────── */
 @theme {
   /* ── Brand ─────────────────────────────────────────────────────────────── */
-  /* Sportstar yellow — exact match from sportstar.thehindu.com               */
+  /* Sportstar yellow — bright version for button / badge backgrounds         */
   --color-sportstar:     #FFED00;
-  --color-sportstar-dim: #D9C800;  /* hover / pressed */
+  --color-sportstar-dim: #D9C800;  /* hover / pressed                        */
   --color-on-sportstar:  #111111;  /* text ON yellow backgrounds              */
+  /* Deeper golden — for yellow text / icons on white backgrounds             */
+  --color-sportstar-text: #9A7300; /* 4.5 : 1 contrast on white (WCAG AA)    */
 
   /* Warm amber — picked states, score highlights (distinct from yellow)     */
   --color-gold:          #F0A500;

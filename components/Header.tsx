@@ -25,7 +25,7 @@ export default function Header() {
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
               <div className="flex flex-col leading-none">
                 <span className="text-[10px] font-black tracking-[0.22em] uppercase
-                                 text-[var(--color-sportstar)]">
+                                 text-[var(--color-sportstar-text)]">
                   Sportstar
                 </span>
                 <span className="text-[13px] font-bold text-[var(--color-text-primary)]

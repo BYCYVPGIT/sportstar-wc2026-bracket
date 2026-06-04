@@ -67,7 +67,7 @@ export default function HowToPlayPage() {
       <main className="flex-1 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-sportstar)] mb-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-sportstar-text)] mb-2">
             Sportstar · WC 2026 Bracket
           </p>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--color-text-primary)] mb-3">How to play</h1>

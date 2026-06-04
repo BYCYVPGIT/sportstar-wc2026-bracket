@@ -8,7 +8,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div>
-            <p className="text-xs font-semibold tracking-widest uppercase text-[var(--color-sportstar)] mb-1">
+            <p className="text-xs font-semibold tracking-widest uppercase text-[var(--color-sportstar-text)] mb-1">
               Sportstar
             </p>
             <p className="text-xs text-[var(--color-text-muted)]">

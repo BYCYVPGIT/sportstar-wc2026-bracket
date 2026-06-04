@@ -52,7 +52,7 @@ export default function BracketSummary({ groupRanks, knockoutPicks, champion }: 
           {groupSection.map(({ group, ranks }) => (
             <div key={group}
               className="rounded-lg border border-[var(--color-line)] bg-[var(--color-ink-800)] p-3">
-              <p className="text-xs font-bold text-[var(--color-sportstar)] mb-2">Group {group}</p>
+              <p className="text-xs font-bold text-[var(--color-sportstar-text)] mb-2">Group {group}</p>
               <ol className="space-y-1.5">
                 {ranks.map((id, i) => {
                   const team = TEAMS_BY_ID[id];

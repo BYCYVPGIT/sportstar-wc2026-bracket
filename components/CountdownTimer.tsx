@@ -39,7 +39,7 @@ export default function CountdownTimer({ variant = 'large' }: CountdownTimerProp
 
   if (!time) {
     return (
-      <span className={variant === 'compact' ? 'text-xs text-[var(--color-sportstar)] font-semibold' : ''}>
+      <span className={variant === 'compact' ? 'text-xs text-[var(--color-sportstar-text)] font-semibold' : ''}>
         🔒 Bracket locked
       </span>
     );
