@@ -114,12 +114,28 @@ export const useBracketStore = create<BracketStore>()(
 
       setDisplayName: (name) => set({ displayName: name, status: 'draft' }),
 
-      submitBracket: () =>
-        set(state => ({
-          status: 'submitted',
-          submittedAt: new Date().toISOString(),
-          shortCode: state.shortCode ?? generateShortCode(),
-        })),
+      submitBracket: () => {
+        const state       = get();
+        const shortCode   = state.shortCode ?? generateShortCode();
+        const submittedAt = new Date().toISOString();
+
+        // Update local state immediately — localStorage is the source of truth
+        set({ status: 'submitted', submittedAt, shortCode });
+
+        // Fire-and-forget: sync bracket to Supabase for scoring + leaderboard
+        fetch('/api/brackets', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            shortCode,
+            displayName:   state.displayName,
+            groupRanks:    state.groupRanks,
+            knockoutPicks: state.knockoutPicks,
+            tiebreakers:   state.tiebreakers,
+            submittedAt,
+          }),
+        }).catch(err => console.error('[bracket:submit]', err));
+      },
 
       resetBracket: () => set({ ...initialState }),
     }),
