@@ -21,9 +21,10 @@ interface BracketStore extends BracketState {
   // Navigation
   setStep: (step: BuildStep) => void;
   setDisplayName: (name: string) => void;
+  setEmail: (email: string) => void;
 
   // Submit
-  submitBracket: () => void;
+  submitBracket: (email: string) => void;
   resetBracket: () => void;
 }
 
@@ -34,6 +35,7 @@ const defaultTiebreakers: Tiebreakers = {
 
 const initialState: BracketState = {
   displayName: '',
+  email:       '',
   status: 'empty',
   currentStep: 'welcome',
   groupRanks: {},
@@ -114,13 +116,15 @@ export const useBracketStore = create<BracketStore>()(
 
       setDisplayName: (name) => set({ displayName: name, status: 'draft' }),
 
-      submitBracket: () => {
+      setEmail: (email) => set({ email }),
+
+      submitBracket: (email: string) => {
         const state       = get();
         const shortCode   = state.shortCode ?? generateShortCode();
         const submittedAt = new Date().toISOString();
 
         // Update local state immediately — localStorage is the source of truth
-        set({ status: 'submitted', submittedAt, shortCode });
+        set({ status: 'submitted', submittedAt, shortCode, email });
 
         // Fire-and-forget: sync bracket to Supabase for scoring + leaderboard
         fetch('/api/brackets', {
@@ -129,6 +133,7 @@ export const useBracketStore = create<BracketStore>()(
           body: JSON.stringify({
             shortCode,
             displayName:   state.displayName,
+            email,
             groupRanks:    state.groupRanks,
             knockoutPicks: state.knockoutPicks,
             tiebreakers:   state.tiebreakers,

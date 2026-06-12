@@ -60,6 +60,7 @@ export type BuildStep =
 
 export interface BracketState {
   displayName: string;
+  email:       string;
   status: 'empty' | 'draft' | 'submitted';
   currentStep: BuildStep;
   groupRanks: GroupRanks;
