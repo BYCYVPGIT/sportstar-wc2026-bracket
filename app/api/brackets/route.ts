@@ -8,13 +8,14 @@ export async function POST(request: Request) {
     const body = await request.json() as {
       shortCode:     string;
       displayName:   string;
+      email:         string;
       groupRanks:    GroupRanks;
       knockoutPicks: KnockoutPicks;
       tiebreakers:   Tiebreakers;
       submittedAt:   string;
     };
 
-    const { shortCode, displayName, groupRanks, knockoutPicks, tiebreakers, submittedAt } = body;
+    const { shortCode, displayName, email, groupRanks, knockoutPicks, tiebreakers, submittedAt } = body;
 
     if (!shortCode?.trim() || !displayName?.trim()) {
       return NextResponse.json(
@@ -48,14 +49,15 @@ export async function POST(request: Request) {
       .from('bracket_submissions')
       .upsert(
         {
-          short_code:    shortCode,
-          display_name:  displayName,
-          group_ranks:   groupRanks,
+          short_code:     shortCode,
+          display_name:   displayName,
+          email:          email ?? null,
+          group_ranks:    groupRanks,
           knockout_picks: knockoutPicks,
           tiebreakers,
           score,
-          submitted_at:  submittedAt,
-          updated_at:    new Date().toISOString(),
+          submitted_at:   submittedAt,
+          updated_at:     new Date().toISOString(),
         },
         { onConflict: 'short_code' },
       );
