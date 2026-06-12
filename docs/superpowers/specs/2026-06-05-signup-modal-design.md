@@ -23,25 +23,28 @@ User clicks "Lock & submit my bracket"
     ↓
 Modal slides up (backdrop blur)
     ↓
-User enters email → clicks "Lock & submit"
+User enters email → clicks "Lock & submit" in modal
     ↓
-[Simultaneous]
-  • Bracket saved to Supabase (with email)
+[Only now does the bracket save]
+  • submitBracket(email) called — saves to localStorage + POST to Supabase with email
   • Confirmation email sent via Resend
     ↓
-Success screen inside modal
-  "Bracket locked! Check your email for your bracket link."
+Modal shows success: "Bracket locked! Check your email."
     ↓
 User closes modal → sees the existing "Bracket locked! 🎉" screen
 ```
+
+**Key constraint:** The bracket is NOT saved until the user provides their email in the modal.
+The "Lock & submit" button on the Review screen opens the modal only — it does NOT trigger saving.
 
 ---
 
 ## Modal Design
 
 ### Trigger
-- Button: "Lock & submit my bracket" on the Review screen (`ReviewStep` component in `app/build/page.tsx`)
+- Button: "Lock & submit my bracket" on the Review screen (`ReviewStep` component in `app/build/page.tsx`) **opens the modal only** — does NOT save the bracket
 - Only shown when bracket is complete (`isBracketComplete` returns true)
+- The actual `submitBracket(email)` is called by the modal's submit button after email is collected
 
 ### Modal content
 - Personalised title: **"Almost there, [displayName]!"**
