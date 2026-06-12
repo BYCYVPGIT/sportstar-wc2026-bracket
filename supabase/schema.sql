@@ -8,7 +8,8 @@ create table if not exists bracket_submissions (
   tiebreakers    jsonb       not null default '{}',
   score          integer     not null default 0,
   submitted_at   timestamptz not null,
-  updated_at     timestamptz not null default now()
+  updated_at     timestamptz not null default now(),
+  email          text
 );
 
 -- Index used by leaderboard query (score DESC, then submitted_at ASC for tiebreak)
