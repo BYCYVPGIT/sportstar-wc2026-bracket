@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { Check, Share2, RotateCcw, Trophy, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import SignUpModal from '@/components/SignUpModal';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -382,17 +383,33 @@ function TiebreakersStep({ onNext }: { onNext: () => void }) {
 }
 
 // ─── Review & submit step ────────────────────────────────────────────────────
-function ReviewStep({
-  onSubmit,
-  onReset,
-}: {
-  onSubmit: () => void;
-  onReset: () => void;
-}) {
+function ReviewStep({ onReset }: { onReset: () => void }) {
   const { groupRanks, knockoutPicks, status, shortCode, displayName, submittedAt } =
     useBracketStore();
-  const complete  = isBracketComplete(groupRanks, knockoutPicks);
-  const champion  = knockoutPicks['FINAL'];
+  const submitBracket = useBracketStore(s => s.submitBracket);
+  const complete = isBracketComplete(groupRanks, knockoutPicks);
+  const champion = knockoutPicks['FINAL'] ?? null;
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalSubmit = async (email: string) => {
+    submitBracket(email);
+    // submitBracket calls Zustand set() synchronously — read fresh state immediately
+    const fresh = useBracketStore.getState();
+    const championName = champion && TEAMS_BY_ID[champion]
+      ? TEAMS_BY_ID[champion].name
+      : '';
+    fetch('/api/send-confirmation', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        displayName: fresh.displayName,
+        shortCode:   fresh.shortCode ?? '',
+        champion:    championName,
+      }),
+    }).catch(err => console.error('[send-confirmation]', err));
+  };
 
   // ── Submitted state ────────────────────────────────────────────────────────
   if (status === 'submitted' && shortCode) {
@@ -467,65 +484,75 @@ function ReviewStep({
 
   // ── Pre-submit review ─────────────────────────────────────────────────────
   return (
-    <div className="fade-in">
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <h2 className="text-xl font-bold text-[var(--color-text-primary)]">Review your bracket</h2>
-          <p className="text-sm text-[var(--color-text-secondary)] mt-0.5">
-            Check everything before locking in.
-          </p>
-        </div>
-        {complete ? (
-          <span className="text-xs font-semibold text-[var(--color-pitch)]
-                           bg-[var(--color-pitch)]/10 px-2.5 py-1 rounded-full shrink-0">
-            Complete ✓
-          </span>
-        ) : (
-          <span className="text-xs font-semibold text-[var(--color-gold)]
-                           bg-[var(--color-gold)]/10 px-2.5 py-1 rounded-full shrink-0">
-            Incomplete
-          </span>
-        )}
-      </div>
-
-      {!complete && (
-        <div className="rounded-lg border border-[var(--color-gold)]/30
-                        bg-[var(--color-gold)]/5 p-4 mb-6">
-          <p className="text-sm text-[var(--color-gold)]">
-            ⚠️ Your bracket isn&apos;t complete. Go back and fill all picks.
-          </p>
-          <p className="text-xs text-[var(--color-text-muted)] mt-1">
-            Groups: {countCompletedGroups(groupRanks)}/12 ·
-            Knockout picks: {countKnockoutPicks(knockoutPicks)}/32
-          </p>
-        </div>
-      )}
-
-      <BracketSummary
-        groupRanks={groupRanks}
-        knockoutPicks={knockoutPicks}
+    <>
+      <SignUpModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleModalSubmit}
+        displayName={displayName}
         champion={champion}
       />
 
-      <div className="mt-8 pt-6 border-t border-[var(--color-line)]">
-        <p className="text-xs text-[var(--color-text-muted)] mb-4 text-center">
-          By submitting you agree to the{' '}
-          <Link href="/terms" className="text-[var(--color-sportstar-text)] hover:underline">
-            Terms &amp; Conditions
-          </Link>. Your bracket is locked once submitted.
-        </p>
-        <button
-          onClick={onSubmit}
-          disabled={!complete}
-          className="w-full rounded-lg py-4 text-base font-bold transition-colors
-                     bg-[var(--color-sportstar)] text-[var(--color-on-sportstar)]
-                     hover:bg-[var(--color-sportstar-dim)]
-                     disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Lock &amp; submit my bracket
-        </button>
+      <div className="fade-in">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold text-[var(--color-text-primary)]">Review your bracket</h2>
+            <p className="text-sm text-[var(--color-text-secondary)] mt-0.5">
+              Check everything before locking in.
+            </p>
+          </div>
+          {complete ? (
+            <span className="text-xs font-semibold text-[var(--color-pitch)]
+                             bg-[var(--color-pitch)]/10 px-2.5 py-1 rounded-full shrink-0">
+              Complete ✓
+            </span>
+          ) : (
+            <span className="text-xs font-semibold text-[var(--color-gold)]
+                             bg-[var(--color-gold)]/10 px-2.5 py-1 rounded-full shrink-0">
+              Incomplete
+            </span>
+          )}
+        </div>
+
+        {!complete && (
+          <div className="rounded-lg border border-[var(--color-gold)]/30
+                          bg-[var(--color-gold)]/5 p-4 mb-6">
+            <p className="text-sm text-[var(--color-gold)]">
+              ⚠️ Your bracket isn&apos;t complete. Go back and fill all picks.
+            </p>
+            <p className="text-xs text-[var(--color-text-muted)] mt-1">
+              Groups: {countCompletedGroups(groupRanks)}/12 ·
+              Knockout picks: {countKnockoutPicks(knockoutPicks)}/32
+            </p>
+          </div>
+        )}
+
+        <BracketSummary
+          groupRanks={groupRanks}
+          knockoutPicks={knockoutPicks}
+          champion={champion}
+        />
+
+        <div className="mt-8 pt-6 border-t border-[var(--color-line)]">
+          <p className="text-xs text-[var(--color-text-muted)] mb-4 text-center">
+            By submitting you agree to the{' '}
+            <Link href="/terms" className="text-[var(--color-sportstar-text)] hover:underline">
+              Terms &amp; Conditions
+            </Link>. Your bracket is locked once submitted.
+          </p>
+          <button
+            onClick={() => setModalOpen(true)}
+            disabled={!complete}
+            className="w-full rounded-lg py-4 text-base font-bold transition-colors
+                       bg-[var(--color-sportstar)] text-[var(--color-on-sportstar)]
+                       hover:bg-[var(--color-sportstar-dim)]
+                       disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Lock &amp; submit my bracket
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -574,7 +601,6 @@ export default function BuildPage() {
       case 'review':
         return (
           <ReviewStep
-            onSubmit={store.submitBracket}
             onReset={() => { store.resetBracket(); setStep('welcome'); }}
           />
         );
